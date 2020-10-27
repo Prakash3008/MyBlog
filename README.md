@@ -6,12 +6,12 @@
 
     Clone the repository
 
-    ```git clone https://github.com/the-bose/flipkart-value-scraper.git
-    cd flipkart-value-scraper```
+    git clone https://github.com/Prakash3008/MyBlog.git
+    cd MyBlog
 
     Install the required plugins
 
-    ```pip install -r requirements.txt```
+    pip install -r requirements.txt
 
 ## Running
 
