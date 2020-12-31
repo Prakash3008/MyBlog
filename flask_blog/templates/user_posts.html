@@ -1,5 +1,6 @@
 {%extends "layout.html"%}
 {% block content %}
+    <h2 class="mb-3">Posts by {{ user.username }} ({{ posts.total }})</h2>
     {%  for post in posts.items  %}
     {{ ckeditor.load_code_theme() }}
     <article class="media content-section">
@@ -17,9 +18,9 @@
     {%  for pagenum in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)  %}
         {% if pagenum %}
             {% if posts.page == pagenum %}
-                <a class="btn btn-info mb-4" href="{{ url_for('home', page=pagenum) }}">{{ pagenum }}</a>
+                <a class="btn btn-info mb-4" href="{{ url_for('user_posts', username=user.username ,page=pagenum) }}">{{ pagenum }}</a>
             {% else %}
-                <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=pagenum) }}">{{ pagenum }}</a>
+                <a class="btn btn-outline-info mb-4" href="{{ url_for('user_posts', username=user.username,page=pagenum) }}">{{ pagenum }}</a>
             {% endif %}
         {% else %}
             ...
