@@ -1,10 +1,11 @@
 from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from flask_wtf.file import FileAllowed, FileField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flask_blog.models import User
 from flask_login import current_user
-from flask_ckeditor import CKEditorField
+from flask_blog.models import User
+
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', 
@@ -68,7 +69,22 @@ class UpdateForm(FlaskForm):
                 raise ValidationError('Email ID already exists')
 
 
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = CKEditorField('Content', validators=[DataRequired()])
-    submit = SubmitField('Post')
+class RequestReset(FlaskForm):
+    email = StringField('Email', 
+        validators=[DataRequired(), Email()])
+    
+    submit = SubmitField('Request Password Reset')
+
+    def validate_email(self, email):
+        mail = User.query.filter_by(email=email.data).first()
+        if mail is None:
+            raise ValidationError('If an account with this email address exists, a password reset message will be sent shortly.')
+
+class ResetPassword(FlaskForm):
+    password = PasswordField('Password',
+        validators=[DataRequired()])
+
+    confirm_password = PasswordField('Confirm Password',
+        validators=[DataRequired(), EqualTo('password')])
+
+    submit = SubmitField('Reset Password')
